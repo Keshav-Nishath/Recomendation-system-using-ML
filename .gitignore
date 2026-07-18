@@ -1,0 +1,8 @@
+/venv310
+/.venv
+links.csv
+movies.csv
+ratings.csv
+tags.csv
+matrix.pkl
+knn.pkl
