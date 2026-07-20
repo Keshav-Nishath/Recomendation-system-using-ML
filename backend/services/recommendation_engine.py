@@ -32,6 +32,7 @@ by distant neighbours.
 
 import numpy as np
 import pandas as pd
+import scipy.sparse as sp
 from typing import Optional
 
 from models.knn_loader import get_knn_model, get_matrix
@@ -86,7 +87,10 @@ def generate_recommendations(
     )
 
     # ── Step 2: retrieve user vector ──────────────────────────────────────────
-    user_vector = matrix.iloc[user_idx].values.reshape(1, -1)  # shape (1, 9087)
+    # Convert to sparse CSR — the KNN model was trained on a sparse matrix
+    # (scipy.sparse.csr_matrix), so the query must also be sparse or sklearn
+    # will raise a ValueError about input format mismatch.
+    user_vector = sp.csr_matrix(matrix.iloc[user_idx].values.reshape(1, -1))
 
     # ── Step 3: query KNN ─────────────────────────────────────────────────────
     # Request k+1 neighbours because the first result is always the user
@@ -170,7 +174,6 @@ def generate_recommendations(
             continue
         predicted_rating = w_sum / w_total          # similarity-weighted mean
         genres_list      = title_to_genres_list.get(title, [])
-        genres_str       = "|".join(genres_list) if genres_list else "Unknown"
         year             = title_to_year.get(title)
 
         scored.append({
@@ -183,14 +186,14 @@ def generate_recommendations(
 
     # Sort by predicted rating descending, then by supporter count descending
     # as a secondary tie-breaker.
-    scored.sort(key=lambda x: (x["rating"], x["similar_users"]), reverse=True)
+    scored.sort(key=lambda x: (x["predicted_rating"], x["similar_users_count"]), reverse=True)
 
     top_n = scored[:n_recommendations]
     logger.info(
         "Returning %d recommendations for user_id=%d  (top rating: %.2f)",
         len(top_n),
         user_id,
-        top_n[0]["rating"] if top_n else 0,
+        top_n[0]["predicted_rating"] if top_n else 0,
     )
     return top_n
 

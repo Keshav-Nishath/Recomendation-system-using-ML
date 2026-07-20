@@ -1,8 +1,48 @@
+# --- Virtual Environments -----------------------------------------------------
 /venv310
 /.venv
+venv/
+env/
+ENV/
+
+# --- Data files (large, not for version control) ------------------------------
 links.csv
 movies.csv
 ratings.csv
 tags.csv
 matrix.pkl
 knn.pkl
+
+# --- Python bytecode cache ----------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+
+# --- Logs and debug output ----------------------------------------------------
+*.log
+backend_out.txt
+backend_err.txt
+test_out.txt
+test_err.txt
+
+# --- Jupyter checkpoints ------------------------------------------------------
+.ipynb_checkpoints/
+
+# --- OS files -----------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE / editor -------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Streamlit ----------------------------------------------------------------
+.streamlit/secrets.toml
+
+# --- Secrets ------------------------------------------------------------------
+.env
+.env.*
+secrets.toml

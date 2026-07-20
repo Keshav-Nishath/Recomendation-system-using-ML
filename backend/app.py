@@ -1,3 +1,6 @@
+
+
+
 """
 app.py
 ------
@@ -104,12 +107,10 @@ def create_app() -> Flask:
     from routes.health    import health_bp
     from routes.stats     import stats_bp
     from routes.recommend import recommend_bp
-    from routes.user      import user_bp
 
     app.register_blueprint(health_bp)
     app.register_blueprint(stats_bp)
     app.register_blueprint(recommend_bp)
-    app.register_blueprint(user_bp)
 
     logger.info(
         "Blueprints registered: %s",

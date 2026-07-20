@@ -300,7 +300,7 @@ def get_user_profile(user_id: int) -> dict:
         Returns { "user_id": int, "num_ratings": int,
                   "avg_rating": float, "highly_rated": list }
     """
-    url = f"{BACKEND_BASE_URL}/api/user/{user_id}/profile"
+    url = f"{BACKEND_BASE_URL}/user/{user_id}/profile"
     data, error = _get(url)
     if data:
         return {"data": data, "error": None, "source": "backend"}
@@ -374,7 +374,7 @@ def validate_user_id(user_id: int) -> dict:
         GET /api/user/<user_id>/validate
         Returns { "valid": bool, "message": str }
     """
-    url = f"{BACKEND_BASE_URL}/api/user/{user_id}/validate"
+    url = f"{BACKEND_BASE_URL}/user/{user_id}/validate"
     data, error = _get(url)
     if data:
         return data
